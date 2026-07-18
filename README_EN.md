@@ -1,6 +1,6 @@
 # Skill Router
 
-[Chinese version](README.md)
+[中文版](README.md) · [English](README_EN.md)
 
 `skill-router` is a platform-neutral Agent Skill that inventories installed Skills, identifies highly similar capabilities that genuinely compete for the same user requests, and creates focused vertical Routers when needed. It reduces entry-point conflicts while preserving the complete capabilities of every original Skill.
 

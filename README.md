@@ -1,6 +1,6 @@
 # Skill Router
 
-[英文版](README_EN.md)
+[中文版](README.md) · [English](README_EN.md)
 
 `skill-router` 是一个平台中立的 Agent Skill。它帮助 Agent 盘点已经安装的 Skills，识别真正会竞争同一用户请求的高度相似能力，并在必要时创建垂直 Router，减少入口冲突，同时保留每个原始 Skill 的完整能力。
 
