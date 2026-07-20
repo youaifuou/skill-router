@@ -88,9 +88,14 @@ The Skill was tested through multiple isolated runs with 12 third-party Skills. 
 
 ```text
 skill-router/
+├── LICENSE
 ├── SKILL.md
 ├── README.md
 └── README_ZH.md
 ```
 
 Platform-specific metadata may be added by users when needed and is not required by the core Skill.
+
+## License
+
+Released under the [MIT License](LICENSE). Copyright (c) 2026 youaifuou.

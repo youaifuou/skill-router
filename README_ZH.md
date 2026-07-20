@@ -86,9 +86,14 @@ git clone https://github.com/youaifuou/skill-router.git
 
 ```text
 skill-router/
+├── LICENSE
 ├── SKILL.md
 ├── README.md
 └── README_ZH.md
 ```
 
 平台专属元数据可以由使用者按需添加，不属于核心 Skill 的必要组成部分。
+
+### 许可证
+
+本项目采用 [MIT License](LICENSE) 开源。Copyright (c) 2026 youaifuou。
