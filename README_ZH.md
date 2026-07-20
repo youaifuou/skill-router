@@ -64,11 +64,13 @@ Agent 通常根据 Skill 的名称和描述判断该调用哪一个。安装的 
 
 ### 安装
 
-克隆仓库，并将仓库目录放入你的 Agent 平台能够发现的 Skills 目录。不同平台的目录结构和附加元数据可能不同；核心入口始终是根目录下的 `SKILL.md`。
+使用 Skills CLI 安装：
 
 ```bash
-git clone https://github.com/youaifuou/skill-router.git
+npx skills add youaifuou/skill-router
 ```
+
+手动安装时，克隆仓库并将 `skills/skill-router` 复制到 Agent 平台能够发现的 Skills 目录。平台需要额外元数据时，可以另行添加。
 
 ### 使用
 
@@ -87,12 +89,15 @@ git clone https://github.com/youaifuou/skill-router.git
 ```text
 skill-router/
 ├── LICENSE
-├── SKILL.md
 ├── README.md
-└── README_ZH.md
+├── README_ZH.md
+└── skills/
+    └── skill-router/
+        ├── LICENSE
+        └── SKILL.md
 ```
 
-平台专属元数据可以由使用者按需添加，不属于核心 Skill 的必要组成部分。
+`skills/skill-router` 是唯一规范 Skill 包；仓库根目录不保留重复的 `SKILL.md`。
 
 ### 许可证
 

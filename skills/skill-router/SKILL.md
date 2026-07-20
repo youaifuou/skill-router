@@ -1,6 +1,7 @@
 ---
 name: skill-router
 description: 盘点已安装的 Agent Skills，识别会竞争同一自然用户请求的高度相似能力，并规划、创建或审查垂直 Router。用户要求整理 Skills、收敛入口、设计 Router，或检查 Router 是否过宽、模板化时使用。默认保持 Skill 独立。
+license: MIT
 ---
 
 # Skill Router

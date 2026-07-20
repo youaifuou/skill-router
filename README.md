@@ -66,11 +66,13 @@ A concrete Router does not impose a fixed workflow. It coordinates only what mus
 
 ## Installation
 
-Clone the repository and place the repository directory where your Agent platform discovers Skills. Platforms may use different directory layouts or additional metadata; the core entry point is always the root `SKILL.md`.
+Install with the Skills CLI:
 
 ```bash
-git clone https://github.com/youaifuou/skill-router.git
+npx skills add youaifuou/skill-router
 ```
+
+For manual installation, clone the repository and copy `skills/skill-router` into the Skills directory recognized by your Agent platform. Platform-specific metadata may be added separately when required.
 
 ## Usage
 
@@ -89,12 +91,15 @@ The Skill was tested through multiple isolated runs with 12 third-party Skills. 
 ```text
 skill-router/
 ├── LICENSE
-├── SKILL.md
 ├── README.md
-└── README_ZH.md
+├── README_ZH.md
+└── skills/
+    └── skill-router/
+        ├── LICENSE
+        └── SKILL.md
 ```
 
-Platform-specific metadata may be added by users when needed and is not required by the core Skill.
+`skills/skill-router` is the canonical Skill package. The repository keeps no duplicate root `SKILL.md`.
 
 ## License
 
