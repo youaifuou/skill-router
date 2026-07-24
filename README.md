@@ -2,89 +2,115 @@
 
 [English](README.md) · [中文版](README_ZH.md)
 
-`skill-router` is a platform-neutral Agent Skill that inventories installed Skills, identifies highly similar capabilities that genuinely compete for the same user requests, and creates focused vertical Routers when needed. It reduces entry-point conflicts while preserving the complete capabilities of every original Skill.
+> Turn overlapping Agent Skills into focused, adaptive entry points without merging or weakening them.
 
-## Highlights
+`skill-router` audits installed Agent Skills, finds highly similar Skills that compete for the same user requests, and proposes focused Routers. After user approval, each Router becomes a clearer entry point that can select one leaf Skill or coordinate several according to the task.
 
-`skill-router` does more than place similar Skills behind one entry point. It turns capabilities with genuine discovery conflicts into an adaptive capability cluster. Based on the current task, the Agent may use one leaf Skill, combine several Skills, investigate different directions in parallel, and merge their results through shared context.
+## The problem
 
-- **Precise aggregation**: Consolidate only Skills that compete for the same real request, avoiding broad groupings that reduce selection accuracy.
-- **Adaptive composition**: Do not impose permanent primary/supporting roles, fixed sequences, or predefined bundles; let task facts determine single, combined, or parallel use.
-- **Shared state**: Reuse the same inputs, evidence, and progress across participating Skills to reduce duplicate reading and investigation.
-- **Unified results**: Coordinate findings, disagreements, and actions into one coherent response.
-- **Capability preservation**: Keep every original Skill and its resources intact; the Router does not copy, weaken, or override leaf methods.
-- **Safe rollout**: Report the plan and wait for approval before changing entry points, while retaining paths and rollback information.
+Skill discovery works well when an Agent has only a few clearly separated Skills. As the collection grows, several problems appear:
 
-## Why it exists
+- multiple Skills may respond to the same natural-language request;
+- the Agent may select inconsistently or load overlapping instructions;
+- similar Skills may repeat reading, investigation, or validation work;
+- broad “mega-Routers” may reduce the number of entries while making capability boundaries less precise.
 
-Agents usually select Skills from their names and descriptions. That works well with a small collection, but as the installed list grows, several Skills may claim the same request. This can lead to:
+`skill-router` addresses a specific problem: **discovery conflict**. A discovery conflict exists when the same realistic request could reasonably trigger multiple Skills that pursue the same concrete outcome.
 
-- inconsistent Skill selection;
-- duplicate loading or repeated work;
-- context consumed by overlapping instructions;
-- multiple near-identical entry points users must remember;
-- broad aggregation that reduces precision instead of improving it.
+Sharing a domain, technology stack, or lifecycle is not enough. Skills that solve different subgoals can collaborate without being placed behind the same Router.
 
-`skill-router` is not a general-purpose Skill categorizer. It addresses a narrower question: **which Skills have a genuine discovery conflict, and how can those entry points be consolidated while enabling useful composition without losing capability?**
+## What it does
 
-| Common pain point | How `skill-router` responds |
+1. **Audit** — Read the installed `SKILL.md` files and understand their triggers, outputs, distinct capabilities, constraints, and dependencies.
+2. **Compare** — Test realistic requests to distinguish genuine selection conflicts from loose topical similarity.
+3. **Propose** — Present focused Router candidates, included and excluded Skills, directory changes, and rollback options.
+4. **Build after approval** — Create concrete Routers while preserving the complete leaf Skills and their resources.
+5. **Validate** — Test single-Skill use, multi-Skill coordination, changing task conditions, and adjacent requests that should remain outside the Router.
+
+No active Skill entry point is moved, hidden, or replaced before the user approves the plan.
+
+## Adaptive coordination
+
+A generated Router does not prescribe one permanent workflow. It explains:
+
+- the narrow user intent shared by its leaf Skills;
+- the distinct capability each leaf contributes;
+- the task information that affects which capabilities are useful;
+- what context, evidence, and artifacts should be shared;
+- how to avoid duplicate work and combine results.
+
+The Agent then decides what the current task requires:
+
+| Task situation | Possible behavior |
 | --- | --- |
-| Several Skills match the same natural-language request | Compare real overlapping requests and aggregate only true selection competitors |
-| A task benefits from several similar capabilities, but users do not know how to combine them | Let task facts drive single- or multi-Skill use, with shared state and merged results |
-| Skills are grouped broadly because they share a domain | Keep them independent by default and create only focused vertical Routers |
-| A Router forces permanent primary, supporting, or escalation roles | Let current task facts determine whether one or multiple leaf Skills add value |
-| A Router copies leaf workflows and gradually drifts out of sync | Keep the Router as a coordination layer and treat each leaf `SKILL.md` as authoritative |
-| Reorganizing entry points may disrupt an existing setup | Report the plan first, require approval, and retain migration and rollback information |
+| One capability is sufficient | Use one leaf Skill |
+| Several capabilities add value | Coordinate the relevant subset |
+| Work is independent | Proceed in parallel when useful |
+| One result depends on another | Coordinate in the required order |
+| The request falls outside the Router boundary | Use an independent Skill instead |
 
-## How it works
+These are possible responses to task structure, not fixed routing modes. The Router does not assign permanent primary, supporting, escalation, or fallback roles.
 
-1. **Inventory**: Read every in-scope `SKILL.md` in full and inspect direct dependencies when needed.
-2. **Identify**: Test genuine discovery conflicts with realistic user requests instead of clustering by names, domains, or technology stacks.
-3. **Plan**: Report candidate Routers, overlapping requests, unique capability contributions, directory changes, and rollback options.
-4. **Build**: After approval, create a concise concrete Router while preserving the complete original Skills and their resources.
-5. **Validate**: Check paths, dependencies, single-leaf use, multi-leaf coordination, task changes, and adjacent negative cases.
+## Example
 
-A concrete Router does not impose a fixed workflow. It coordinates only what must be shared across capabilities: inputs and state, task facts that affect capability value, duplicate-work control, authorization boundaries, and result merging. The Agent can use one leaf Skill, combine several sequentially, investigate in parallel, or adopt another task-appropriate arrangement, reducing selection cost, duplicate work, and context waste.
+Suppose several debugging Skills could all respond to:
+
+> Diagnose and fix this intermittent test failure.
+
+`skill-router` first checks whether they genuinely solve the same concrete goal. If they do, it can create a focused debugging Router that:
+
+- preserves each Skill’s distinct investigation method;
+- uses only one capability when it is enough;
+- combines reproduction, root-cause analysis, and verification when they all contribute;
+- shares evidence and intermediate findings across the selected Skills;
+- merges their conclusions into one coherent result.
+
+A nearby Skill for test planning would remain independent if it solves a different goal. The Router is therefore vertical and specific, not a general “software development” entry point.
 
 ## When to use it
 
-- Your installed Skill collection has grown and descriptions increasingly overlap.
-- The same user request can naturally trigger several similar Skills.
-- You want fewer exposed entry points without deleting or weakening capabilities.
-- You want related capabilities to work together without hard-coding one composition pattern.
-- An existing Router has become too broad, template-driven, or locked into fixed roles and sequences.
-- You need to review a Router's boundary, paths, or internal coordination.
+Use `skill-router` when:
 
-## What it does not do
+- the installed Skill list has become difficult to navigate;
+- several Skills naturally match the same request;
+- you want fewer exposed entry points without deleting capabilities;
+- related Skills should cooperate without a hard-coded combination;
+- an existing Router is too broad, generic, or locked into fixed roles.
 
-- It does not merge Skills merely because they share a domain, stack, or lifecycle.
-- It does not confuse “can collaborate” with “should be aggregated.”
-- It does not create a single mega-Router for an entire domain.
-- It does not copy detailed leaf workflows into the Router.
-- It does not force one permanent Skill-combination pattern.
-- It does not move or rewrite original Skills before user approval.
+Do not use it merely to categorize Skills by topic or place an entire domain behind one Router.
 
 ## Installation
 
 Install with the Skills CLI:
 
 ```bash
-npx skills add youaifuou/skill-router
+npx skills add youaifuou/skill-router --skill skill-router
 ```
 
-For manual installation, clone the repository and copy `skills/skill-router` into the Skills directory recognized by your Agent platform. Platform-specific metadata may be added separately when required.
+You can also view the listing on [skills.sh](https://www.skills.sh/youaifuou/skill-router/skill-router).
+
+For manual installation, clone this repository and copy `skills/skill-router` into a Skill directory supported by your Agent platform.
 
 ## Usage
 
-Example request:
+Ask your Agent to use `skill-router`, for example:
 
-> Review my installed Skills, identify capabilities with genuine discovery conflicts, and propose focused vertical Routers. Report the plan first and wait for my approval before applying changes.
+> Audit my installed Skills. Identify genuine discovery conflicts and propose focused Routers. Explain what each Router would include, what should remain independent, and how the entry points would change. Wait for my approval before applying anything.
 
-`skill-router` analyzes the collection and reports a proposal before reorganizing anything. Only after approval does it create concrete Routers, validate internal paths, and consolidate active entry points where the target platform supports it.
+The Skill reports its plan first. After approval, it creates and validates the concrete Routers and applies only the agreed entry-point changes.
+
+## Design principles
+
+- Keep Skills independent by default.
+- Aggregate the smallest group that resolves a real conflict.
+- Derive every capability description from the source `SKILL.md`.
+- Keep detailed methods and constraints in the leaf Skills.
+- Let task facts determine single, combined, parallel, or dependent use.
+- Preserve original directories, resources, and rollback information.
 
 ## Validation
 
-The Skill was tested through multiple isolated runs with 12 third-party Skills. A generated debugging Router also passed single-leaf selection, multi-leaf coordination, authorization-boundary, real-fix, and adjacent non-trigger tests.
+The Skill has been exercised through multiple isolated runs using third-party Skills. Generated Routers were tested against single-leaf requests, multi-leaf coordination, authorization boundaries, real task execution, and adjacent non-trigger cases.
 
 ## Repository structure
 
@@ -95,11 +121,10 @@ skill-router/
 ├── README_ZH.md
 └── skills/
     └── skill-router/
-        ├── LICENSE
         └── SKILL.md
 ```
 
-`skills/skill-router` is the canonical Skill package. The repository keeps no duplicate root `SKILL.md`.
+`skills/skill-router` is the canonical installable Skill package.
 
 ## License
 
